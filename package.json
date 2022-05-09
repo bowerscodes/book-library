@@ -28,5 +28,8 @@
     "mysql2": "^2.3.3",
     "nodemon": "^2.0.16",
     "supertest": "^6.2.3"
+  },
+  "dependencies": {
+    "sequelize": "^6.19.0"
   }
 }
