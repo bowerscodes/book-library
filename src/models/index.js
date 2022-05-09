@@ -1,5 +1,5 @@
-const { Sequelize } = require('sequelize');
-const sequelize = require ('sequelize');
+const Sequelize = require ('sequelize');
+const ReaderModel = require ('./reader');
 
 // destructure environment variables from process.env 
 const { DB_PASSWORD, DB_NAME, DB_USER, DB_HOST, DB_PORT } = process.env;
@@ -12,9 +12,13 @@ function setUpDatabase () {
         logging: false,
     });
 
-    connection.sync({alter: true});
-    return {};
+    const Reader = ReaderModel(connection, Sequelize);
+
+    connection.sync({ alter: true });
+    return {
+        Reader
+    };
 };
 
 
-module.exports = setupDatabase();
+module.exports = setUpDatabase();
