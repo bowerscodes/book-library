@@ -1,5 +1,6 @@
 const Sequelize = require ('sequelize');
 const ReaderModel = require ('./reader');
+const BookModel = require ('./book');
 
 // destructure environment variables from process.env 
 const { DB_PASSWORD, DB_NAME, DB_USER, DB_HOST, DB_PORT } = process.env;
@@ -13,10 +14,12 @@ function setUpDatabase () {
     });
 
     const Reader = ReaderModel(connection, Sequelize);
+    const Book = BookModel(connection, Sequelize);
 
     connection.sync({ alter: true });
     return {
-        Reader
+        Reader,
+        Book
     };
 };
 
