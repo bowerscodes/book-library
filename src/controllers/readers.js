@@ -5,7 +5,7 @@ const { Reader } = require('../models');
 
 
 exports.create = async (req, res) => {
-    const db = await getDb();
+    // const db = await getDb();
     const newReader = await Reader.create(req.body);
 
     res.status(201).json(newReader);
