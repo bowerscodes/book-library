@@ -40,3 +40,12 @@ exports.readById = async (req, res) => {
         res.status(200).json(reader);
     }
 };
+
+exports.update = async (req, res) => {
+    const readerId = req.params.id;
+    const updateData = req.body;
+
+    const [ updatedRows ] = await Reader.update(updateData, { where: { id: readerId } });
+    res.status(200);
+
+};
