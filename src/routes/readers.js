@@ -7,6 +7,7 @@ router.post('/', readerController.create);
 
 router.get('/', readerController.read);
 
+router.get('/:id', readerController.readById);
 
 
 

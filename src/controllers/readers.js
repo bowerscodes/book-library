@@ -31,8 +31,12 @@ exports.read = async (_, res) => {
 };
 
 exports.readById = async (req, res) => {
-    const readerId = 3;
+    const readerId = req.params.id;
     const reader = await Reader.findByPk(readerId);
 
-    res.status(200).json(reader);
-}
+    if (!reader) {
+        res.status(404).json({ error: 'The reader could not be found.' });
+    }   else {
+        res.status(200).json(reader);
+    }
+};
