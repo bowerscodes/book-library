@@ -1,22 +1,25 @@
 const getDb = require('../services/db');
+const { Reader } = require('../models');
 
 
 
 
 exports.create = async (req, res) => {
     const db = await getDb();
-    const { name, email } = req.body;
+    const newReader = await Reader.create(req.body);
 
-    try {
-        await db.query('INSERT INTO Reader (name, email) VALUES(?, ?)', [
-            name,
-            email,
-        ]);
+    res.status(201).json(newReader);
 
-        res.sendStatus(201);
-    } catch (err) {
-        res.sendStatus(500).json(err);
-    }
+    // try {
+    //     await db.query('INSERT INTO Reader (name, email) VALUES(?, ?)', [
+    //         name,
+    //         email,
+    //     ]);
 
-    db.close();  
+    //     res.sendStatus(201);
+    // } catch (err) {
+    //     res.sendStatus(500).json(err);
+    // }
+
+    // db.close();  
 };
