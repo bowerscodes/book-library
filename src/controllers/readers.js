@@ -1,5 +1,6 @@
 const getDb = require('../services/db');
 const { Reader } = require('../models');
+const db = require('../services/db');
 
 
 
@@ -46,6 +47,10 @@ exports.update = async (req, res) => {
     const updateData = req.body;
 
     const [ updatedRows ] = await Reader.update(updateData, { where: { id: readerId } });
-    res.status(200);
 
+    if (!updatedRows) {
+        res.status(404).json({ error: 'The reader could not be found.' });
+    } else {
+        res.status(200).send();
+    }
 };
