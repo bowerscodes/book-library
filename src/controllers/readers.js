@@ -23,3 +23,16 @@ exports.create = async (req, res) => {
 
     // db.close();  
 };
+
+exports.read = async (_, res) => {
+    const readers = await Reader.findAll();
+
+    res.status(200).json(readers);
+};
+
+exports.readById = async (req, res) => {
+    const readerId = 3;
+    const reader = await Reader.findByPk(readerId);
+
+    res.status(200).json(reader);
+}

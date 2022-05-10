@@ -5,6 +5,8 @@ const router = express.Router();
 
 router.post('/', readerController.create);
 
+router.get('/', readerController.read);
+
 
 
 
