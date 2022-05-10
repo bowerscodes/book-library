@@ -1,5 +1,6 @@
 const express = require ('express');
 const readerController = require('../controllers/readers');
+const reader = require('../models/reader');
 
 const router = express.Router();
 
@@ -10,6 +11,8 @@ router.get('/', readerController.read);
 router.get('/:id', readerController.readById);
 
 router.patch('/:id', readerController.update);
+
+router.delete('/:id', readerController.delete);
 
 
 module.exports = router;

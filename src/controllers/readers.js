@@ -54,3 +54,15 @@ exports.update = async (req, res) => {
         res.status(200).send();
     }
 };
+
+exports.delete = async (req, res) => {
+    const readerId =  req.params.id;
+
+    const deletedRows = await Reader.destroy({ where: { id: readerId } });
+
+    if (!deletedRows) {
+        res.status(404).json({ error: 'The reader could not be found.' });
+    } else {
+        res.status(204).send();
+    }
+}
