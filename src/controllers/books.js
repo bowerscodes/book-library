@@ -1,4 +1,4 @@
-const { Book } = require('../models');
+const { Book, Reader } = require('../models');
 
 exports.create = async (req, res) => {
     const newBook = await Book.create(req.body);
@@ -33,5 +33,17 @@ exports.update = async (req,res) => {
         res.status(404).json({ error: 'The book could not be found.' })
     } else {
         res.status(200).send();
+    }
+};
+
+exports.delete = async (req, res) => {
+    const bookId = req.params.id;
+    
+    const deletedRows = await Book.destroy({ where: { id: bookId } });
+
+    if (!deletedRows) {
+        res.status(404).json({ error: 'The book could not be found.' })
+    } else {
+        res.status(204).send();
     }
 };
