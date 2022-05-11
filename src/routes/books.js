@@ -9,7 +9,7 @@ router.get('/', bookController.read);
 
 router.get('/:id', bookController.readById);
 
-// router.patch('/:id', bookController.update);
+router.patch('/:id', bookController.update);
 
 // router.delete('/:id', bookController.delete);
 

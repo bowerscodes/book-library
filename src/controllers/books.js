@@ -22,3 +22,16 @@ exports.readById = async (req, res) => {
         res.status(200).json(book)
     }
 };
+
+exports.update = async (req,res) => {
+    const bookId = req.params.id;
+    const updateData = req.body;
+
+    const [ updatedRows ] = await Book.update(updateData, { where: { id: bookId } });
+
+    if (!updatedRows) {
+        res.status(404).json({ error: 'The book could not be found.' })
+    } else {
+        res.status(200).send();
+    }
+};
