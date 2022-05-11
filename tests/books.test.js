@@ -24,7 +24,7 @@ describe('/books', () => {
                 });
 
                 expect(response.status).to.equal(201);
-                expect(response.body.title).to.equal('The Very Hungry Caterpillar');
+                expect(newBookRecord.title).to.equal('The Very Hungry Caterpillar');
                 expect(newBookRecord.author).to.equal('Eric Carle');
                 expect(newBookRecord.ISBN).to.equal('9783806741360');
             });
