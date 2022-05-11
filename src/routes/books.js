@@ -5,9 +5,9 @@ const router = express.Router();
 
 router.post('/', bookController.create);
 
-// router.get('/', bookController.read);
+router.get('/', bookController.read);
 
-// router.get('/:id', bookController.readById);
+router.get('/:id', bookController.readById);
 
 // router.patch('/:id', bookController.update);
 

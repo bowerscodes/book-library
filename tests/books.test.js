@@ -2,6 +2,7 @@ const { expect } = require('chai');
 const request = require('supertest');
 const { Book } = require('../src/models');
 const app = require('../src/app');
+const reader = require('../src/models/reader');
 
 describe('/books', () => {
     before(async () => Book.sequelize.sync());
@@ -17,7 +18,7 @@ describe('/books', () => {
                     title: 'The Very Hungry Caterpillar',
                     author: 'Eric Carle',
                     genre: 'childrens',
-                    ISBN: '9783806741360'
+                    ISBN: '9783806741360',
                 });
                 const newBookRecord = await Book.findByPk(response.body.id, {
                     raw: true
@@ -31,4 +32,61 @@ describe('/books', () => {
         });
     });
 
+    describe('with records in the database', () => {
+        let books;
+
+        beforeEach(async () => {
+            books = await Promise.all([
+                Book.create({
+                    title: 'The Very Hungry Caterpillar',
+                    author: 'Eric Carle',
+                    genre: 'childrens',
+                    ISBN: '9783806741360',
+                }),
+                Book.create({ title: 'SIMPLE', author: 'Yotam Ottolenghi', genre: 'Cooking', ISBN: '9781785031168' }),
+                Book.create({ title: 'SIMPLY', author: 'Sabrina Ghayour', genre: 'Cooking', ISBN: '1784725161' })
+            ]);
+        });
+
+        describe('GET /books', () => {
+            it('gets all book records', async () => {
+                const response = await request(app).get('/books');
+
+                expect(response.status).to.equal(200);
+                expect(response.body.length).to.equal(3);
+
+                response.body.forEach((book) => {
+                    const expected = books.find((a) => a.id === book.id);
+
+                    expect(book.title).to.equal(expected.title);
+                    expect(book.author).to.equal(expected.author);
+                    expect(book.genre).to.equal(expected.genre);
+                    expect(book.ISBN).to.equal(expected.ISBN);
+                });
+            });
+        });
+
+        describe('GET /books/:id', () => {
+            it('gets books record by id', async () => {
+                const book = books[0];
+                const response = await request(app).get(`/books/${book.id}`);
+
+                expect(response.status).to.equal(200);
+                expect(response.body.title).to.equal(book.title);
+                expect(response.body.author).to.equal(book.author);
+                expect(response.body.genre).to.equal(book.genre);
+                expect(response.body.ISBN).to.equal(book.ISBN);
+            });
+
+            it('returns a 404 if the book does not exist', async () => {
+                const response = await request(app).get('/books/12345');
+
+                expect(response.status).to.equal(404);
+                expect(response.body.error).to.equal('The book could not be found.');
+            });
+        });
+
+
+
+    });
 });

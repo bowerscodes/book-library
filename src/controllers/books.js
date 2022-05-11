@@ -5,3 +5,20 @@ exports.create = async (req, res) => {
 
     res.status(201).json(newBook);
 };
+
+exports.read = async (_, res) => {
+    const books = await Book.findAll();
+
+    res.status(200).json(books);
+};
+
+exports.readById = async (req, res) => {
+    const bookId = req.params.id;
+    const book = await Book.findByPk(bookId);
+
+    if (!book) {
+        res.status(404).json({ error: 'The book could not be found.' })
+    } else {
+        res.status(200).json(book)
+    }
+};
