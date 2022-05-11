@@ -1,6 +1,5 @@
 const express = require ('express');
 const readerController = require('../controllers/readers');
-const reader = require('../models/reader');
 
 const router = express.Router();
 
