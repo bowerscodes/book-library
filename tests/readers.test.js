@@ -28,6 +28,20 @@ describe('/readers', () => {
         expect(newReaderRecord.email).to.equal('future_ms_darcy@gmail.com');
         expect(newReaderRecord.password).to.equal('msdarcy4eva');
       });
+
+      it('returns a 400 if the name is left blank', async () => {
+        const response = await request(app).post('/readers').send({
+          name: '',
+          email: 'future_ms_darcy@gmail.com',
+          password: 'msdarcy4eva'
+        });
+        const newReaderRecord = await Reader.findByPk(response.body.id, {
+          raw: true,
+        });
+
+        expect(response.status).to.equal(400);
+        // expect(response.body.error).to.equal('Please enter your name');
+      });
     });
   });
 
