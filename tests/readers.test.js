@@ -29,9 +29,8 @@ describe('/readers', () => {
         expect(newReaderRecord.password).to.equal('msdarcy4eva');
       });
 
-      it('returns a 400 if the name is left blank', async () => {
+      it('returns a 500 if the name is left blank', async () => {
         const response = await request(app).post('/readers').send({
-          name: '',
           email: 'future_ms_darcy@gmail.com',
           password: 'msdarcy4eva'
         });
@@ -39,8 +38,32 @@ describe('/readers', () => {
           raw: true,
         });
 
-        expect(response.status).to.equal(400);
-        // expect(response.body.error).to.equal('Please enter your name');
+        expect(response.status).to.equal(500);
+      });
+
+      it('returns a 500 if the email is left blank', async () => {
+        const response = await request(app).post('/readers').send({
+          name: "Elizabeth Bennet",
+          password: 'msdarcy4eva'
+        });
+        const newReaderRecord = await Reader.findByPk(response.body.id, {
+          raw: true,
+        });
+
+        expect(response.status).to.equal(500);
+      });
+
+      it('returns a 500 if the password is left blank', async () => {
+        const response = await request(app).post('/readers').send({
+          name: "Elizabeth Bennet",
+          email: 'future_ms_darcy@gmail.com',
+          password: 'msdarcy'
+        });
+        const newReaderRecord = await Reader.findByPk(response.body.id, {
+          raw: true,
+        });
+
+        expect(response.status).to.equal(500);
       });
     });
   });
