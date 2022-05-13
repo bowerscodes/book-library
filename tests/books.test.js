@@ -17,7 +17,7 @@ describe('/books', () => {
                 const response = await request(app).post('/books').send({
                     title: 'The Very Hungry Caterpillar',
                     author: 'Eric Carle',
-                    genre: 'childrens',
+                    genre: 'Childrens',
                     ISBN: '9783806741360',
                 });
                 const newBookRecord = await Book.findByPk(response.body.id, {
@@ -28,6 +28,26 @@ describe('/books', () => {
                 expect(newBookRecord.title).to.equal('The Very Hungry Caterpillar');
                 expect(newBookRecord.author).to.equal('Eric Carle');
                 expect(newBookRecord.ISBN).to.equal('9783806741360');
+            });
+
+            it('returns a 500 if the title is left blank', async () => {
+                const response = await request(app).post('/books').send({
+                    author: 'Eric Carle',
+                    genre: 'Childrens',
+                    ISBN: '9783806741360',
+                });
+
+                expect(response.status).to.equal(500);
+            });
+
+            it('returns a 500 if the author is left blank', async () => {
+                const response = await request(app).post('/books').send({
+                    title: 'The Very Hungry Caterpillar',
+                    genre: 'Childrens',
+                    ISBN: '9783806741360',
+                });
+
+                expect(response.status).to.equal(500);
             });
         });
     });
